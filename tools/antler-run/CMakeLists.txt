@@ -10,17 +10,8 @@ set(CDT_NO_START TRUE)
 include_directories(${LIB_DIR})
 
 add_tool(antler-run)
-target_compile_options(${PROJECT_NAME} PUBLIC -ldl -fpermissive)
-if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug" AND APPLE)
-    target_compile_options( ${TARGET} PUBLIC -g )
-    find_program ( name NAMES "dsymutil" )
-    if ( name )
-        add_custom_command( TARGET ${TARGET} POST_BUILD COMMAND dsymutil ${BINOUTPUT}/${TARGET} )
-    endif()
-endif()
-
+target_compile_options(${PROJECT_NAME} PUBLIC -ldl)
 set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-Wl,-rpath,\"\\$ORIGIN/../lib\"")
-
 target_include_directories(${PROJECT_NAME} PUBLIC ${TOOLS_DIR}/external/eos-vm/include
                                                   ${LIB_DIR}/eosiolib/contracts
                                                   ${LIB_DIR}/eosiolib/core
@@ -30,5 +21,3 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${TOOLS_DIR}/external/eos-vm/i
                                                   ${LIB_DIR}/meta_refl/include
                                                   ${LIB_DIR}/boost/include)
 target_link_libraries(${PROJECT_NAME} native_eosio native)
-
-# target_link_libraries(${PROJECT_NAME} eos-vm EOSIOLIB)

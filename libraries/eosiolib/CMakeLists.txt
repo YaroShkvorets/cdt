@@ -15,6 +15,10 @@ if (${PARENT_PROJECT_NAME} STREQUAL "cdt_tools")
                                                      ${CMAKE_SOURCE_DIR}/../libraries/boost/include
                                                      ${CMAKE_SOURCE_DIR}/../libraries/meta_refl/include)
    target_compile_options(${PROJECT_NAME} PUBLIC -fPIC -fexceptions -fno-rtti)
+   if ((CMAKE_CXX_COMPILER_ID STREQUAL "GNU"))
+      target_compile_options(${PROJECT_NAME} PUBLIC -Wno-attributes=gnu::eosio_wasm_import)
+      target_compile_options(${PROJECT_NAME} PUBLIC -Wno-attributes=eosio::ignore)
+   endif()
 else()
    add_library(eosio
                eosiolib.cpp

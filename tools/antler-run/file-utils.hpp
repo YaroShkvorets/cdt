@@ -11,6 +11,7 @@
 namespace eosio { namespace utils {
 
 enum class file_type {
+    uninitialized,
     non_elf_other,
     elf_object,
     elf_executable,
@@ -49,6 +50,28 @@ file_type get_file_type(const char* path) {
             return file_type::wasm;
         
         return file_type::non_elf_other;
+    }
+
+    return file_type::uninitialized;
+}
+
+std::string file_type_str(file_type t) {
+    switch (t) {
+        case file_type::non_elf_other:
+        return "non elf";
+        case file_type::elf_object:
+        return "object";
+        case file_type::elf_executable:
+        return "executable";
+        case file_type::elf_shared_object:
+        return "shared object";
+        case file_type::elf_core_dump:
+        return "core dump";
+        case file_type::wasm:
+        return "wasm";
+        case file_type::uninitialized:
+        default:
+        return "uninitialized";
     }
 }
 
